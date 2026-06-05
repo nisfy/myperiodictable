@@ -4,11 +4,17 @@ import streamlit as st
 st.set_page_config(page_title="Beranda - Tabel Periodik", layout="wide", page_icon="🏠")
 
 # 2. Custom CSS untuk Warna dan Font Estetik (Tema Pastel)
+st.import streamlit as st
+
+# 1. Konfigurasi Halaman (Wajib di bagian paling atas)
+st.set_page_config(page_title="Beranda - Tabel Periodik", layout="wide", page_icon="🏠")
+
+# 2. Custom CSS untuk Warna dan Font Estetik (Tema Pastel)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap');
     
-    /* Warna Background Utama */
+    /* Warna Background Aplikasi */
     .stApp {
         background: linear-gradient(135deg, #FDFBFB 0%, #EBEDEE 100%);
     }
@@ -41,7 +47,6 @@ st.markdown("""
         box-shadow: 0px 4px 12px rgba(0,0,0,0.03); 
         font-family: 'Quicksand'; 
         color: #4A4A4A;
-        height: 100%;
     }
     
     /* Box Visual Kanan */
@@ -53,39 +58,24 @@ st.markdown("""
         box-shadow: 0px 4px 12px rgba(0,0,0,0.03);
     }
 
-    /* Box Editor Team */
-    .editor-box {
-        background-color: #FFFFFF;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.03);
-        margin-top: 25px;
-        font-family: 'Quicksand', sans-serif;
+    /* Judul Section Editor */
+    .section-title {
+        font-family: 'Fredoka One', cursive;
+        color: #6C5B7B;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        font-size: 24px;
     }
 
-    /* Tabel Editor */
-    .editor-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-    }
-    .editor-table th {
-        background-color: #6C5B7B;
-        color: white;
-        text-align: left;
-        padding: 10px;
-        font-family: 'Fredoka One', cursive;
-        font-weight: normal;
-        border-radius: 5px 5px 0 0;
-    }
-    .editor-table td {
-        padding: 12px 10px;
-        border-bottom: 1px solid #EEEEEE;
-        color: #4A4A4A;
-        font-weight: 600;
-    }
-    .editor-table tr:hover {
-        background-color: #F9F9F9;
+    /* Card Editor */
+    .editor-card {
+        background-color: #FFFFFF;
+        border-left: 5px solid #6C5B7B;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.02);
+        font-family: 'Quicksand', sans-serif;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -113,12 +103,16 @@ with col_kiri:
         </ul>
     </div>
     """, unsafe_allow_html=True)
+    
+    st.write("") # Jarak spacer
+    # Kotak Info Petunjuk yang Eye-Catching
+    st.info("💡 **Petunjuk Penggunaan:** Gunakan menu navigasi di bar samping (**Sidebar**) untuk beralih halaman dan mulai menjelajahi tabel periodik!")
 
 with col_kanan:
     # Grafis Mini Laboratorium Menggunakan Kombinasi Emoji yang Lucu
     st.markdown("""
     <div class="visual-box">
-        <div style="font-size: 75px;">🔬</div>
+        <div style="font-size: 75px; animation: float 3s ease-in-out infinite;">🔬</div>
         <div style="font-size: 65px; margin-top: -20px; margin-left: 45px;">🧪</div>
         <div style="font-size: 55px; margin-top: -30px; margin-right: 55px;">⚛️</div>
         <p style="font-family: 'Fredoka One'; color: #6C5B7B; margin-top: 20px; font-size: 22px; letter-spacing: 1px;">ANALISIS KIMIA</p>
@@ -127,43 +121,33 @@ with col_kanan:
     </div>
     """, unsafe_allow_html=True)
 
-st.write("") # Jarak spacer
+# --- SECTION TIM EDITOR ---
+st.markdown('<hr style="border: 0; height: 1px; background: #6C5B7B; opacity: 0.1; margin-top: 40px;">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">✍️ Tim Editor</div>', unsafe_allow_html=True)
 
-# 5. Bagian Tim Editor (Lebar Penuh di Bawah)
-st.markdown("""
-<div class="editor-box">
-    <h4 style="color: #6C5B7B; font-family: 'Fredoka One', cursive; margin-bottom: 15px; display: flex; align-items: center;">
-        ✍️ Tim Editor & Pengembang
-    </h4>
-    <table class="editor-table">
-        <tr>
-            <th width="65%">Nama Lengkap</th>
-            <th width="35%">NIM / Identitas</th>
-        </tr>
-        <tr>
-            <td>HAYU RAIHANUN</td>
-            <td>2560641</td>
-        </tr>
-        <tr>
-            <td>NIKEN SRI UTTARI</td>
-            <td>2560727</td>
-        </tr>
-        <tr>
-            <td>NISFY SABRINA FLOWERRIDHA</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td>SUPRIYADI</td>
-            <td>2560728</td>
-        </tr>
-        <tr>
-            <td>RAIFAN SYAHDAN PUTRA RAYA</td>
-            <td>2560742</td>
-        </tr>
-    </table>
-</div>
-""", unsafe_allow_html=True)
+# Membuat Grid 2x2 untuk List Nama Editor agar Tampilan Seimbang
+col_ed1, col_ed2 = st.columns(2)
 
-st.write("") # Jarak spacer
-# Kotak Info Petunjuk penggunaan di paling bawah aplikasi
-st.info("💡 **Petunjuk Penggunaan:** Gunakan menu navigasi di bar samping (**Sidebar**) untuk beralih halaman dan mulai menjelajahi tabel periodik!")
+with col_ed1:
+    st.markdown("""
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">HAYU RAIHANUN</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560641</span>
+    </div>
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">NIKEN SRI UTTARI</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560727</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_ed2:
+    st.markdown("""
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">NISFY SABRINA FLOWERRIDHA SUPRIYADI</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560728</span>
+    </div>
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">RAIFAN SYAHDAN PUTRA RAYA</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560742</span>
+    </div>
+    """, unsafe_allow_html=True)
