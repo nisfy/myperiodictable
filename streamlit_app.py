@@ -1,41 +1,9 @@
-**Tampilan Kode Setelah Pengeditan:**
-    ```python
-    import streamlit as st
-    import pandas as pd
+import streamlit as st
+import streamlit as st
+import pandas as pd
 
-# ==================== HALAMAN 1: BERANDA ====================
-if menu_halaman == "Beranda (Selamat Datang)":
-    # Membuat layout dua kolom untuk teks judul/isi dan ikon gambar/logo di sebelah kanan
-    kolom_teks, kolom_gambar = st.columns([2, 1])
-    
-    with kolom_teks:
-        st.markdown("<h4 style='color:gray;'>Tahun Ditemukan: 1766</h4>", unsafe_allow_html=True) # Sesuai SS kedua Anda
-        st.title("👋 Selamat Datang di Ensiklopedia Unsur Kimia")
-        st.write("")
-        st.markdown("""
-        Aplikasi ini adalah **Tabel Periodik Interaktif** yang dirancang untuk membantu Anda mempelajari berbagai unsur kimia dengan mudah dan detail.
-        
-        Melalui aplikasi ini, Anda dapat mengeksplorasi:
-        * 📝 **Informasi Dasar** (Massa atom, konfigurasi elektron, dll)
-        * 🧪 **Sifat Kimia & Fisik** (Reaktivitas, kelarutan)
-        * 🧊 **Wujud Fisik** (Massa jenis, wujud pada suhu ruang)
-        * ⚠️ **Kesehatan & Keselamatan** (Piktogram GHS dan tingkat toksisitas)
-        * 🧰 **Kegunaan** (Aplikasi di dunia nyata)
-        """)
-        
-        # Info Box Cara Penggunaan
-        st.info("💡 **Cara Penggunaan:** Silakan buka menu dropdown di sebelah kiri (Sidebar) dan pilih unsur kimia atau menu **Tabel Periodik Interaktif** yang ingin Anda pelajari!")
-
-    with kolom_gambar:
-        # Tempat meletakkan ikon/emoji besar sebagai representasi visual gambar di SS kedua kamu
-        st.write("")
-        st.write("")
-        st.markdown("<h1 style='font-size: 100px; text-align: center;'>🔬</h1>", unsafe_allow_html=True)
-        st.markdown("<h1 style='font-size: 100px; text-align: center;'>🧪</h1>", unsafe_allow_html=True)
-        st.markdown("<h1 style='font-size: 100px; text-align: center;'>⚛️</h1>", unsafe_allow_html=True)
-
-
-# ==================== HALAMAN 2: TABEL PERIODIK ====================
+# Konfigurasi Halaman (Lebar Penuh agar tabel muat)
+st.set_page_config(page_title="Tabel Periodik Interaktif", layout="wide", page_icon="🧪")
 
 # --- DATASET (GOLONGAN IA & IIA) ---
 unsur_data = {
@@ -881,6 +849,10 @@ else:
     with tab5:
         st.subheader("Aplikasi di Dunia Nyata")
         st.success(data["Kegunaan"])
+
+
+
+
 
 
 
