@@ -51,6 +51,26 @@ st.markdown("""
         text-align: center; 
         box-shadow: 0px 4px 12px rgba(0,0,0,0.03);
     }
+
+    /* Judul Section Editor */
+    .section-title {
+        font-family: 'Fredoka One', cursive;
+        color: #6C5B7B;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        font-size: 24px;
+    }
+
+    /* Card Editor */
+    .editor-card {
+        background-color: #FFFFFF;
+        border-left: 5px solid #6C5B7B;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.02);
+        font-family: 'Quicksand', sans-serif;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -92,5 +112,36 @@ with col_kanan:
         <p style="font-family: 'Fredoka One'; color: #6C5B7B; margin-top: 20px; font-size: 22px; letter-spacing: 1px;">ANALISIS KIMIA</p>
         <hr style="border: 0; height: 1px; background: #6C5B7B; opacity: 0.2; margin: 15px 0;">
         <p style="font-family: 'Quicksand'; font-weight: 700; color: #A8A7A7; font-size: 13px;">COHORT AKA '25</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# --- SECTION TIM EDITOR ---
+st.markdown('<hr style="border: 0; height: 1px; background: #6C5B7B; opacity: 0.1; margin-top: 40px;">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">✍️ Tim Editor</div>', unsafe_allow_html=True)
+
+# Membuat Grid 2x2 untuk List Nama Editor agar Tampilan Seimbang
+col_ed1, col_ed2 = st.columns(2)
+
+with col_ed1:
+    st.markdown("""
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">HAYU RAIHANUN</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560641</span>
+    </div>
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">NIKEN SRI UTTARI</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560727</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_ed2:
+    st.markdown("""
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">NISFY SABRINA FLOWERRIDHA SUPRIYADI</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560728</span>
+    </div>
+    <div class="editor-card">
+        <span style="font-weight: 700; color: #6C5B7B; font-size: 16px;">RAIFAN SYAHDAN PUTRA RAYA</span><br>
+        <span style="color: #888888; font-size: 14px;">NIM: 2560742</span>
     </div>
     """, unsafe_allow_html=True)
