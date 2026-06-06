@@ -814,7 +814,7 @@ if st.session_state.unsur_terpilih in unsur_data:
     ])
     
     with tab1:
-        df_dasar = pd.DataFrame(list(unsur_aktif["Informasi Dasar"].items()), columns=["Properti", "Nilai"])
+df_dasar = pd.DataFrame(data["Informasi Dasar"].items(), columns=["Properti", "Nilai"])
         st.dataframe(df_dasar, hide_index=True, use_container_width=True)
 
     with tab2:
