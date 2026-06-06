@@ -770,7 +770,6 @@ unsur_data = {
 ...         "Kegunaan": "Lampu jalan (lampu uap natrium), pendingin reaktor nuklir, sintesis bahan kimia, dan garam dapur (sebagai senyawa NaCl)."
 ...     }
 ... }
-}
 
 # ============================================
 # 🎨 WARNA KATEGORI (Kawaii Chemistry)
