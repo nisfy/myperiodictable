@@ -813,13 +813,15 @@ if st.session_state.unsur_terpilih in unsur_data:
         "Informasi Dasar", "Sifat Kimia & Fisik", "Wujud Fisik", "Kesehatan & Keselamatan", "Kegunaan"
     ])
     
-    with tab1:
-df_dasar = pd.DataFrame(data["Informasi Dasar"].items(), columns=["Properti", "Nilai"])
-        st.dataframe(df_dasar, hide_index=True, use_container_width=True)
-
+   with tab1:
+        # Menampilkan tabel data informasi dasar
+        df_dasar = pd.DataFrame(data["Informasi Dasar"].items(), columns=["Properti", "Nilai"])
+        st.table(df_dasar) 
+        
     with tab2:
-        for key, value in unsur_aktif["Sifat Kimia & Fisik"].items():
-            st.markdown(f"**{key}:** {value}")
+        # Menampilkan sifat kimia & fisik
+        for k, v in data["Sifat Kimia & Fisik"].items():
+            st.write(f"⚡ **{k}:** {v}")
 
     with tab3:
         c1, c2, c3 = st.columns(3)
