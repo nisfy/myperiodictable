@@ -1,32 +1,119 @@
-"""
-🏠 Ensiklopedia Unsur Kimia - Proyek Kelompok 13
-Politeknik AKA Bogor
-
-Multi-Halaman Streamlit dengan Tema Kawaii Chemistry
-"""
-
 import streamlit as st
 import pandas as pd
 import time
 
-# ============================================
-# 🔧 KONFIGURASI HALAMAN
-# ============================================
+# ==============================================================================
+# 1. KONFIGURASI HALAMAN & CSS KUSTOM (KAWAII CHEMISTRY THEME)
+# ==============================================================================
 st.set_page_config(
-    page_title="Ensiklopedia Unsur Kimia",
+    page_title="Ensiklopedia Unsur Kimia - Kelompok 13",
     page_icon="🧪",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ============================================
-# 📦 DATA UNSUR PERIODIK (Tabel Pendek)
-# ============================================
+# Menggunakan st.markdown dengan unsafe_allow_html=True agar aman di versi lama
+st.markdown("""
+<style>
+    /* Latar Belakang Utama Aplikasi */
+    .stApp {
+        background: linear-gradient(135deg, #FFF6FB, #F3EEFF, #EAF8FF) !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    /* Latar Belakang Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #F4ECFF !important;
+        border-right: 2px dashed #DCC6FF;
+    }
+    
+    /* Gaya Teks Umum */
+    h1, h2, h3, p, span, label {
+        color: #4A3E56 !important;
+    }
+    
+    /* Tombol Navigasi Kustom di Sidebar */
+    .stSidebar nav li a {
+        border-radius: 10px;
+        margin: 4px 0;
+        transition: all 0.3s ease;
+    }
+    .stSidebar nav li a:hover {
+        background-color: #EAD9FF !important;
+        transform: scale(1.02);
+    }
+    
+    /* Wadah Identitas Kelompok di Beranda */
+    .identity-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid #F4C2E7;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(244, 194, 231, 0.3);
+        margin-top: 20px;
+    }
+    
+    .member-name {
+        font-weight: 600;
+        color: #5D4A70;
+        background: #FFF0FA;
+        padding: 6px 12px;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 4px;
+        border: 1px solid #F4C2E7;
+    }
 
-# ============================================
-# 🎨 WARNA KATEGORI (Kawaii Chemistry)
-# ============================================
-CATEGORY_COLORS = {
+    /* KOTAK UNSUR TABEL PERIODIK (Aesthetic & Modern) */
+    .element-box {
+        border-radius: 12px !important;
+        padding: 10px !important;
+        text-align: center !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05) !important;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease !important;
+        cursor: pointer;
+        border: 1px solid rgba(0,0,0,0.03);
+        margin-bottom: 12px;
+        min-height: 105px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Efek Hover Membesar Sedikit */
+    .element-box:hover {
+        transform: scale(1.08) !important;
+        box-shadow: 0 8px 16px rgba(165, 140, 190, 0.2) !important;
+        z-index: 10;
+    }
+    
+    .atomic-number {
+        font-size: 0.75rem !important;
+        font-weight: bold !important;
+        align-self: flex-start;
+        opacity: 0.7;
+    }
+    
+    .element-symbol {
+        font-size: 1.6rem !important;
+        font-weight: 800 !important;
+        margin: -2px 0 !important;
+    }
+    
+    .element-name {
+        font-size: 0.7rem !important;
+        font-weight: 500 !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100%;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# DATA KATEGORI WARNA PASTEL
+COLOR_MAP = {
     "Logam Alkali": "#FFB6C1",
     "Logam Alkali Tanah": "#FFD6A5",
     "Logam Transisi": "#FFF3B0",
@@ -36,330 +123,211 @@ CATEGORY_COLORS = {
     "Halogen": "#D8B4FE",
     "Gas Mulia": "#F8C8DC",
     "Lantanida": "#DCC6FF",
-    "Aktinida": "#F4C2E7",
+    "Aktinida": "#F4C2E7"
 }
 
-# ============================================
-# 📋 LEGENDA KATEGORI
-# ============================================
-LEGEND_MARKDOWN = """
-### 🎨 Legenda Warna Kategori
-"""
+# DATA MENTAH UNSUR KIMIA
+elements_data = [
+    {"Symbol": "H", "Name": "Hydrogen", "AtomicNumber": 1, "Period": 1, "Group": 1, "Category": "Nonlogam"},
+    {"Symbol": "He", "Name": "Helium", "AtomicNumber": 2, "Period": 1, "Group": 18, "Category": "Gas Mulia"},
+    {"Symbol": "Li", "Name": "Lithium", "AtomicNumber": 3, "Period": 2, "Group": 1, "Category": "Logam Alkali"},
+    {"Symbol": "Be", "Name": "Beryllium", "AtomicNumber": 4, "Period": 2, "Group": 2, "Category": "Logam Alkali Tanah"},
+    {"Symbol": "B", "Name": "Boron", "AtomicNumber": 5, "Period": 2, "Group": 13, "Category": "Metaloid"},
+    {"Symbol": "C", "Name": "Carbon", "AtomicNumber": 6, "Period": 2, "Group": 14, "Category": "Nonlogam"},
+    {"Symbol": "N", "Name": "Nitrogen", "AtomicNumber": 7, "Period": 2, "Group": 15, "Category": "Nonlogam"},
+    {"Symbol": "O", "Name": "Oxygen", "AtomicNumber": 8, "Period": 2, "Group": 16, "Category": "Nonlogam"},
+    {"Symbol": "F", "Name": "Fluorine", "AtomicNumber": 9, "Period": 2, "Group": 17, "Category": "Halogen"},
+    {"Symbol": "Ne", "Name": "Neon", "AtomicNumber": 10, "Period": 2, "Group": 18, "Category": "Gas Mulia"},
+    {"Symbol": "Na", "Name": "Sodium", "AtomicNumber": 11, "Period": 3, "Group": 1, "Category": "Logam Alkali"},
+    {"Symbol": "Mg", "Name": "Magnesium", "AtomicNumber": 12, "Period": 3, "Group": 2, "Category": "Logam Alkali Tanah"},
+    {"Symbol": "Al", "Name": "Aluminum", "AtomicNumber": 13, "Period": 3, "Group": 13, "Category": "Logam Lainnya"},
+    {"Symbol": "Si", "Name": "Silicon", "AtomicNumber": 14, "Period": 3, "Group": 14, "Category": "Metaloid"},
+    {"Symbol": "P", "Name": "Phosphorus", "AtomicNumber": 15, "Period": 3, "Group": 15, "Category": "Nonlogam"},
+    {"Symbol": "S", "Name": "Sulfur", "AtomicNumber": 16, "Period": 3, "Group": 16, "Category": "Nonlogam"},
+    {"Symbol": "Cl", "Name": "Chlorine", "AtomicNumber": 17, "Period": 3, "Group": 17, "Category": "Halogen"},
+    {"Symbol": "Ar", "Name": "Argon", "AtomicNumber": 18, "Period": 3, "Group": 18, "Category": "Gas Mulia"},
+    {"Symbol": "K", "Name": "Potassium", "AtomicNumber": 19, "Period": 4, "Group": 1, "Category": "Logam Alkali"},
+    {"Symbol": "Ca", "Name": "Calcium", "AtomicNumber": 20, "Period": 4, "Group": 2, "Category": "Logam Alkali Tanah"},
+    {"Symbol": "Sc", "Name": "Scandium", "AtomicNumber": 21, "Period": 4, "Group": 3, "Category": "Logam Transisi"},
+    {"Symbol": "Ti", "Name": "Titanium", "AtomicNumber": 22, "Period": 4, "Group": 4, "Category": "Logam Transisi"},
+    {"Symbol": "V", "Name": "Vanadium", "AtomicNumber": 23, "Period": 4, "Group": 5, "Category": "Logam Transisi"},
+    {"Symbol": "Cr", "Name": "Chromium", "AtomicNumber": 24, "Period": 4, "Group": 6, "Category": "Logam Transisi"},
+    {"Symbol": "Mn", "Name": "Manganese", "AtomicNumber": 25, "Period": 4, "Group": 7, "Category": "Logam Transisi"},
+    {"Symbol": "Fe", "Name": "Iron", "AtomicNumber": 26, "Period": 4, "Group": 8, "Category": "Logam Transisi"},
+    {"Symbol": "Co", "Name": "Cobalt", "AtomicNumber": 27, "Period": 4, "Group": 9, "Category": "Logam Transisi"},
+    {"Symbol": "Ni", "Name": "Nickel", "AtomicNumber": 28, "Period": 4, "Group": 10, "Category": "Logam Transisi"},
+    {"Symbol": "Cu", "Name": "Copper", "AtomicNumber": 29, "Period": 4, "Group": 11, "Category": "Logam Transisi"},
+    {"Symbol": "Zn", "Name": "Zinc", "AtomicNumber": 30, "Period": 4, "Group": 12, "Category": "Logam Transisi"},
+    {"Symbol": "Ga", "Name": "Gallium", "AtomicNumber": 31, "Period": 4, "Group": 13, "Category": "Logam Lainnya"},
+    {"Symbol": "Ge", "Name": "Germanium", "AtomicNumber": 32, "Period": 4, "Group": 14, "Category": "Metaloid"},
+    {"Symbol": "As", "Name": "Arsenic", "AtomicNumber": 33, "Period": 4, "Group": 15, "Category": "Metaloid"},
+    {"Symbol": "Se", "Name": "Selenium", "AtomicNumber": 34, "Period": 4, "Group": 16, "Category": "Nonlogam"},
+    {"Symbol": "Br", "Name": "Bromine", "AtomicNumber": 35, "Period": 4, "Group": 17, "Category": "Halogen"},
+    {"Symbol": "Kr", "Name": "Krypton", "AtomicNumber": 36, "Period": 4, "Group": 18, "Category": "Gas Mulia"},
+]
+df = pd.DataFrame(elements_data)
 
-for category, color in CATEGORY_COLORS.items():
-    LEGEND_MARKDOWN += f"""
-<span style="background-color: {color}; padding: 5px 12px; border-radius: 15px; margin: 3px;">
-  <span style="color: #333;">●</span> {category}
-</span>
-"""
+# ==============================================================================
+# 2. FUNGSI EFEK LOADING SCREEN
+# ==============================================================================
+def trigger_loading():
+    loading_placeholder = st.empty()
+    with loading_placeholder.container():
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        cols = st.columns([1, 2, 1])
+        with cols[1]:
+            st.image(
+                "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHFsNXM0aHF5bGhlNjgzYm14eW05dzUwOXMwdWp4ZXF6ZXUybW0wZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/BZyYk1m8x1B3GMH1V1/giphy.gif",
+                caption="Mempersiapkan Ramuan Data... 🧪✨",
+                use_container_width=True
+            )
+        time.sleep(1.2)
+    loading_placeholder.empty()
 
-# ============================================
-# 🎭 LOADING SCREEN
-# ============================================
-def show_loading_screen():
-    """Tampilkan loading screen dengan GIF"""
-    loading_container = st.empty()
+# ==============================================================================
+# 3. DEFINISI HALAMAN-HALAMAN APLIKASI
+# ==============================================================================
+def show_page_beranda():
+    st.markdown("# 🏠 Selamat Datang di Ensiklopedia Unsur Kimia ✨")
+    st.markdown("### *Sains itu Seru, Indah, dan Berwarna! ☁️💖🧪*")
+    st.write("---")
     
-    with loading_container.container():
-        st.markdown("""
-        <div style="text-align: center; padding: 50px;">
-            <h2>🧪 Memuat Ensiklopedia Unsur Kimia...</h2>
-            <br>
-            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHFsNXM0aHF5bGhlNjgzYm14eW05dzUwOXMwdWp4ZXF6ZXUybW0wZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/BZyYk1m8x1B3GMH1V1/giphy.gif" 
-                 width="200" 
-                 style="border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
-            <br><br>
-            <p style="color: #888;">✨ Harap tunggu sebentar...</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    time.sleep(2)  # Loading 2 detik
-    loading_container.empty()
-
-# ============================================
-# 🎨 CSS KUSTOM KUWAII CHEMISTRY
-# ============================================
-CUSTOM_CSS = """
-<style>
-    /* Import Font */
-    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
-    
-    /* Background Utama */
-    .stApp {
-        background: linear-gradient(135deg, #FFF6FB 0%, #F3EEFF 50%, #EAF8FF 100%);
-        font-family: 'Quicksand', sans-serif;
-    }
-    
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #F4ECFF 0%, #E8F4FF 100%);
-    }
-    
-    /* Judul Utama */
-    h1, h2, h3 {
-        font-family: 'Quicksand', sans-serif;
-        color: #6B4C9A;
-    }
-    
-    /* Dekorasi Bintang */
-    .decoration-star {
-        position: fixed;
-        font-size: 24px;
-        animation: twinkle 2s infinite;
-        pointer-events: none;
-        z-index: 0;
-    }
-    
-    @keyframes twinkle {
-        0%, 100% { opacity: 0.5; transform: scale(1); }
-        50% { opacity: 1; transform: scale(1.2); }
-    }
-    
-    /* Kotak Unsur */
-    .element-card {
-        border-radius: 12px;
-        padding: 10px;
-        text-align: center;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .element-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-    
-    /* Button style */
-    .stButton > button {
-        border-radius: 12px;
-        background: linear-gradient(135deg, #D8B4FE, #B5EAEA);
-        border: none;
-        color: #333;
-        font-weight: 600;
-    }
-    
-    .stButton > button:hover {
-        transform: scale(1.02);
-        box-shadow: 0 5px 20px rgba(216, 180, 254, 0.4);
-    }
-    
-    /* Container style */
-    .main-content {
-        background: rgba(255, 255, 255, 0.7);
-        border-radius: 20px;
-        padding: 30px;
-        margin: 20px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.05);
-    }
-    
-    /* Card style */
-    .info-card {
-        background: white;
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        transition: all 0.3s ease;
-    }
-    
-    .info-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    }
-    
-    /* Team card */
-    .team-card {
-        background: linear-gradient(135deg, #FFF6FB, #F3EEFF);
-        border-radius: 16px;
-        padding: 20px;
-        text-align: center;
-        border: 2px solid #F8C8DC;
-        margin: 10px;
-    }
-    
-    /* Emoji decorations */
-    .decoration-emoji {
-        position: fixed;
-        font-size: 30px;
-        opacity: 0.3;
-        pointer-events: none;
-        animation: float 6s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
-    }
-    
-    /* Loading animation */
-    .loading-gif {
-        border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    }
-</style>
-"""
-
-# ============================================
-# 🏠 HALAMAN BERANDA
-# ============================================
-def show_beranda():
-    """Halaman Beranda / Home"""
-    
-    # CSS Khusus Beranda
-    st.markdown("""
-    <style>
-        .home-title {
-            font-size: 48px;
-            font-weight: 700;
-            text-align: center;
-            background: linear-gradient(135deg, #FFB6C1, #D8B4FE, #B5EAEA);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-        
-        .home-subtitle {
-            font-size: 24px;
-            text-align: center;
-            color: #888;
-            margin-bottom: 30px;
-        }
-        
-        .welcome-box {
-            background: linear-gradient(135deg, rgba(255,246,251,0.9), rgba(243,238,255,0.9));
-            border-radius: 24px;
-            padding: 40px;
-            margin: 20px 0;
-            border: 3px solid #F8C8DC;
-        }
-        
-        .feature-box {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-        
-        .feature-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-        }
-        
-        .feature-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-        
-        .section-title {
-            font-size: 28px;
-            color: #6B4C9A;
-            margin: 30px 0 20px 0;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #D8B4FE;
-        }
-        
-        .team-member {
-            background: linear-gradient(135deg, #FFF6FB, #EAF8FF);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 10px;
-            text-align: center;
-            border: 2px solid #BDE0FE;
-            transition: all 0.3s ease;
-        }
-        
-        .team-member:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .decoration-float {
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # ============================================
-    # JUDUL & SELAMAT DATANG
-    # ============================================
-    st.markdown("""
-    <div style="text-align: center; padding: 20px;">
-        <h1 class="home-title">🧪 Ensiklopedia Unsur Kimia ✨</h1>
-        <p class="home-subtitle">Jelajahi dunia kimia dengan cara yang lucu dan menarik!</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Dekorasi melayang
-    cols = st.columns([1, 4, 1])
-    with cols[1]:
-        st.markdown("""
-        <div style="text-align: center; font-size: 60px;" class="decoration-float">
-            🧬 🔬 💖 ✨ 🧪 ☁️
-        </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # ============================================
-    # DESKRIPSI APLIKASI
-    # ============================================
-    st.markdown("""
-    <div class="welcome-box">
-        <h2 style="text-align: center; color: #6B4C9A; margin-bottom: 20px;">
-            🌸 Selamat Datang di Ensiklopedia Unsur Kimia 🌸
-        </h2>
-        
-        <p style="font-size: 18px; text-align: center; line-height: 1.8; color: #555;">
-            Aplikasi ini adalah <strong>panduan interaktif</strong> untuk mempelajari 
-            <strong>tabel periodik unsur</strong> dengan tampilan yang 
-            <strong>kawaii dan aesthetic</strong>! 🎀
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # ============================================
-    # TUJUAN, MANFAAT, FITUR
-    # ============================================
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns([3, 2])
     
     with col1:
-        st.markdown("""
-        <div class="feature-box">
-            <div class="feature-icon">🎯</div>
-            <h3>Tujuan</h3>
-            <p style="color: #666;">
-                🎯 Tujuan Aplikasi
-                - Menyediakan informasi unsur-unsur kimia secara lengkap dan mudah dipahami.
-                - Membantu mahasiswa, siswa, dan pengguna umum mempelajari tabel periodik unsur secara interaktif.
-                - Mempermudah pencarian data unsur kimia seperti nomor atom, massa atom, konfigurasi elektron, sifat fisika, dan sifat kimia.
-                - Menjadi media pembelajaran digital yang menarik dan modern dalam bidang kimia.
-                - Meningkatkan pemahaman pengguna mengenai karakteristik dan kegunaan berbagai unsur kimia.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-    
+        st.markdown("#### 🌟 Deskripsi Aplikasi")
+        st.write(
+            "Ensiklopedia Unsur Kimia adalah platform edukasi interaktif berbasis web yang didesain "
+            "khusus untuk mempermudah visualisasi dan pemahaman mengenai tabel periodik unsur-unsur kimia. "
+            "Dikemas dengan desain bertema *Pastel Kawaii Chemistry*, aplikasi ini membuat aktivitas belajar sains terasa menyenangkan."
+        )
+        
+        st.markdown("#### 🎯 Tujuan Aplikasi")
+        st.write(
+            "Menyediakan media pembelajaran kimia digital yang modern, interaktif, serta mudah diakses "
+            "oleh mahasiswa, pelajar, maupun dosen untuk menganalisis data periodisitas unsur secara cepat."
+        )
+        
+        st.markdown("#### 💡 Manfaat Aplikasi")
+        st.markdown(
+            "- **Visualisasi Interaktif:** Memudahkan klasifikasi golongan unsur lewat visualisasi kode warna kustom.\n"
+            "- **Aksesibilitas Informasi:** Membantu mengecek nomor atom, simbol, dan kategori unsur secara instan.\n"
+            "- **Pengalaman Belajar Menyenangkan:** Mengurangi kesan kaku pada pelajaran kimia dengan visualisasi estetik."
+        )
+        
+        st.markdown("#### 🛠️ Fitur yang Tersedia")
+        st.markdown(
+            "- 🧭 **Navigasi Multi-Halaman:** Pemisahan dashboard utama dengan ruang lab data.\n"
+            "- 📊 **Interactive Periodic Layout:** Tata letak grid dinamis sesuai susunan asli sistem periodik unsur.\n"
+            "- 🎨 **Pastel Category Highlights:** Pembedaan blok warna pastel yang responsif dan memanjakan mata."
+        )
+        
     with col2:
-        st.markdown("""
-        <div class="feature-box">
-            <div class="feature-icon">💡</div>
-            <h3>Manfaat</h3>
-            <p style="color: #666;">
-                💡 Manfaat Aplikasi
-                - Memudahkan pengguna mengakses informasi unsur kimia dengan cepat dan praktis.
-                - Membantu proses pembelajaran kimia secara mandiri maupun di lingkungan pendidikan.
-                - Menyajikan data unsur kimia dalam tampilan yang interaktif dan mudah dipahami.
-                - Menambah wawasan mengenai sifat, kegunaan, serta aspek keselamatan dari setiap unsur kimia.
-                - Mendukung kegiatan belajar, penelitian, dan praktikum yang berkaitan dengan ilmu kimia.
-                - Menjadi sumber referensi digital yang dapat diakses kapan saja dan di mana saja.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.image(
+            "https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148489091.jpg", 
+            caption="Aesthetic Chemistry Circle 🔬✨",
+            use_container_width=True
+        )
     
+    st.write("---")
+    st.markdown("### 🗂️ Informasi Proyek & Pengembang")
+    
+    st.markdown(
+        """
+        <div class="identity-card">
+            <h4 style='margin-top:0;'>✨ Ensiklopedia Unsur Kimia</h4>
+            <p style='font-size: 1.05rem;'><b>Proyek Kelompok 13 – Politeknik AKA Bogor</b></p>
+            <p style='margin-bottom: 8px;'><b>Nama Editor / Pengembang:</b></p>
+            <div>
+                <span class="member-name">🌸 Hayu Raihanun (2560641)</span>
+                <span class="member-name">🌸 Niken Sri Uttari (2560727)</span>
+                <span class="member-name">🌸 Nisfy Sabrina Flowerridha Supriyadi (2560728)</span>
+                <span class="member-name">🍀 Raifan Syahdan Putra Raya (2560742)</span>
+            </div>
+            <p style='margin-top:15px; font-size:0.85rem; opacity:0.8;'>🔬 <i>Dibuat dengan dedikasi penuh untuk praktikum komputasi kimia di Kampus Politeknik AKA Bogor.</i></p>
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+
+def show_page_tabel_periodik():
+    st.markdown("# 🧪 Tabel Periodik Unsur ✨")
+    st.markdown("### *Klik & jelajahi blok unsur pastel kawaii chemistry kamu 💖🔬*")
+    st.write("---")
+    
+    st.markdown("#### 🎨 Petunjuk Kategori Unsur:")
+    legend_cols = st.columns(5)
+    categories = list(COLOR_MAP.keys())
+    
+    for idx, cat in enumerate(categories):
+        col_idx = idx % 5
+        with legend_cols[col_idx]:
+            st.markdown(
+                f'<div style="background-color:{COLOR_MAP[cat]}; padding:6px; border-radius:8px; text-align:center; '
+                f'font-size:0.8rem; font-weight:bold; color:#4A3E56; margin-bottom:5px; border: 1px solid rgba(0,0,0,0.05);">'
+                f'{cat}</div>', 
+                unsafe_allow_html=True
+            )
+            
+    st.write("<br>", unsafe_allow_html=True)
+    
+    max_period = int(df['Period'].max())
+    max_group = 18
+    
+    for period in range(1, max_period + 1):
+        grid_cols = st.columns(max_group)
+        
+        for group in range(1, max_group + 1):
+            match = df[(df['Period'] == period) & (df['Group'] == group)]
+            
+            with grid_cols[group - 1]:
+                if not match.empty:
+                    element = match.iloc[0]
+                    bg_color = COLOR_MAP.get(element['Category'], '#FFFFFF')
+                    
+                    box_html = f"""
+                    <div class="element-box" style="background-color: {bg_color};">
+                        <div class="atomic-number">{element['AtomicNumber']}</div>
+                        <div class="element-symbol">{element['Symbol']}</div>
+                        <div class="element-name">{element['Name']}</div>
+                    </div>
+                    """
+                    # Diganti ke st.markdown agar aman di versi lama
+                    st.markdown(box_html, unsafe_allow_html=True)
+                else:
+                    st.write("")
+
+    st.markdown(
+        "<center style='margin-top: 30px; font-size: 1.5rem;'>"
+        "✨ ☁️ 💖 🧪 🔬 💖 ☁️ ✨"
+        "</center>", 
+        unsafe_allow_html=True
+    )
+
+# ==============================================================================
+# 4. SISTEM KONTROL NAVIGASI MULTI-HALAMAN & SIDEBAR
+# ==============================================================================
+st.sidebar.markdown("### 🧭 MENU NAVIGASI")
+st.sidebar.markdown("✨ *Kawaii Chem Lab V.2026* ✨")
+
+if "current_page" not in st.session_state:
+    st.session_state.current_page = "🏠 Beranda"
+
+page_selection = st.sidebar.radio(
+    "Pilih Halaman:",
+    ["🏠 Beranda", "🧪 Tabel Periodik"],
+    label_visibility="collapsed"
+)
+
+if page_selection != st.session_state.current_page:
+    st.session_state.current_page = page_selection
+    trigger_loading()
+
+st.sidebar.write("---")
+st.sidebar.markdown("#### 🔬 Kelompok 13 - AKA")
+st.sidebar.caption("• Hayu Raihanun\n• Niken Sri U.\n• Nisfy Sabrina F.S.\n• Raifan Syahdan P.R.")
+
+if page_selection == "🏠 Beranda":
+    show_page_beranda()
+elif page_selection == "🧪 Tabel Periodik":
+    show_page_tabel_periodik()
