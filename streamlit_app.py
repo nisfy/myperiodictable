@@ -224,7 +224,7 @@ def show_page_beranda():
         
     with col2:
         st.image(
-            "https://i.pinimg.com/736x/45/79/fc/4579fc7247d2291f006af339dfbbf38a.jpg", 
+            "https://i.pinimg.com/736x/2a/60/ad/2a60ade401e17068a8f7db4798312793.jpg", 
             caption="Aesthetic Chemistry Circle 🔬✨",
             use_container_width=True
         )
