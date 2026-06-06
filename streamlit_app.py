@@ -105,15 +105,15 @@ with col_kiri:
 with col_kanan:
     # Grafis Mini Laboratorium Menggunakan Kombinasi Emoji yang Lucu
     st.markdown("""
-    <div class="visual-box">
-        <div style="font-size: 75px; animation: float 3s ease-in-out infinite;">🔬</div>
-        <div style="font-size: 65px; margin-top: -20px; margin-left: 45px;">🧪</div>
-        <div style="font-size: 55px; margin-top: -30px; margin-right: 55px;">⚛️</div>
-        <p style="font-family: 'Fredoka One'; color: #6C5B7B; margin-top: 20px; font-size: 22px; letter-spacing: 1px;">ANALISIS KIMIA</p>
-        <hr style="border: 0; height: 1px; background: #6C5B7B; opacity: 0.2; margin: 15px 0;">
-        <p style="font-family: 'Quicksand'; font-weight: 700; color: #A8A7A7; font-size: 13px;">COHORT AKA '25</p>
-    </div>
-
+<div class="visual-box">
+    <div style="font-size: 75px; animation: float 3s ease-in-out infinite;">🔬</div>
+    <div style="font-size: 65px; margin-top: -20px; margin-left: 45px;">🧪</div>
+    <div style="font-size: 55px; margin-top: -30px; margin-right: 55px;">⚛️</div>
+    <p style="font-family: 'Fredoka One'; color: #6C5B7B; margin-top: 20px; font-size: 22px; letter-spacing: 1px;">ANALISIS KIMIA</p>
+    <hr style="border: 0; height: 1px; background: #6C5B7B; opacity: 0.2; margin: 15px 0;">
+    <p style="font-family: 'Quicksand'; font-weight: 700; color: #A8A7A7; font-size: 13px;">COHORT AKA '25</p>
+</div>
+""", unsafe_allow_html=True)  # 
 # Konfigurasi halaman kedua
 st.set_page_config(page_title="Tabel Periodik Interaktif", layout="wide", page_icon="🧪")
   
