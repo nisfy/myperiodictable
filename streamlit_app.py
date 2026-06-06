@@ -224,7 +224,7 @@ def show_page_beranda():
         
     with col2:
         st.image(
-            "https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148489091.jpg", 
+            "https://i.pinimg.com/736x/45/79/fc/4579fc7247d2291f006af339dfbbf38a.jpg", 
             caption="Aesthetic Chemistry Circle 🔬✨",
             use_container_width=True
         )
