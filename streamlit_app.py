@@ -223,7 +223,8 @@ def show_page_beranda():
         )
         
     with col2:
-    st.markdown("<br><br><br><br><center style='font-size: 3rem;'>✨<br>☁️<br>💖<br>🧪<br>🔬</center>", unsafe_allow_html=True)
+    st.markdown(
+        "<br><br><br><br><center style='font-size: 3rem;'>✨<br>☁️<br>💖<br>🧪<br>🔬</center>", unsafe_allow_html=True)
             use_container_width=True
         )
     
