@@ -126,9 +126,6 @@ COLOR_MAP = {
     "Aktinida": "#F4C2E7"
 }
 
-import streamlit as st
-import streamlit as st
-import pandas as pd
 
 # Konfigurasi halaman
 st.set_page_config(
@@ -176,29 +173,6 @@ st.divider()
 # Deskripsi utama
 st.markdown("""
 <div class="info-box">
-
-### Selamat Datang 👋
-
-Aplikasi **Tabel Periodik Interaktif** dirancang untuk membantu pelajar,
-mahasiswa, guru, analis laboratorium, dan peneliti dalam mempelajari
-seluruh unsur kimia secara lebih mudah dan mendalam.
-
-#### Fitur yang tersedia:
-- 🔬 Data lengkap 118 unsur kimia
-- ⚛️ Nomor atom dan massa atom relatif
-- 🧪 Konfigurasi elektron
-- 🌡️ Titik leleh dan titik didih
-- 💎 Sifat fisika dan kimia
-- ☢️ Isotop penting
-- ⚠️ Tingkat bahaya dan keselamatan
-- 🏭 Kegunaan industri
-- 📖 Sejarah penemuan unsur
-- 📊 Visualisasi dan pencarian interaktif
-
-Mulailah menjelajahi dunia kimia dan temukan informasi lengkap mengenai setiap unsur dalam tabel periodik.
-
-</div>
-""", unsafe_allow_html=True)
 
 # Konfigurasi Halaman (Lebar Penuh agar tabel muat)
 st.set_page_config(page_title="Tabel Periodik Interaktif", layout="wide", page_icon="🧪")
