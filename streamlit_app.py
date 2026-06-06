@@ -3,7 +3,7 @@ import pandas as pd
 import time
 
 # ==============================================================================
-# 1. KONFIGURASI HALAMAN & CSS KUSTOM (KAWAII CHEMISTRY THEME)
+# 1. KONFIGURASI HALAMAN & CSS KUSTOM ( CHEMISTRY THEME)
 # ==============================================================================
 st.set_page_config(
     page_title="Ensiklopedia Unsur Kimia - Kelompok 13",
@@ -223,9 +223,7 @@ def show_page_beranda():
         )
         
     with col2:
-        st.image(
-            "https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148489091.jpg", 
-            caption="Aesthetic Chemistry Circle 🔬✨",
+    st.markdown("<br><br><br><br><center style='font-size: 3rem;'>✨<br>☁️<br>💖<br>🧪<br>🔬</center>", unsafe_allow_html=True)
             use_container_width=True
         )
     
