@@ -200,19 +200,6 @@ Mulailah menjelajahi dunia kimia dan temukan informasi lengkap mengenai setiap u
 </div>
 """, unsafe_allow_html=True)
 
-st.write("")
-
-# Tombol mulai
-if st.button("🚀 Mulai Menjelajah", use_container_width=True):
-    st.success("Selamat belajar kimia! Pilih unsur pada tabel periodik untuk melihat detailnya.")
-
-st.write("")
-st.write("")
-
-# Footer
-st.caption(
-    "© 2026 Tabel Periodik Interaktif | Dibuat untuk pendidikan, penelitian, dan pembelajaran kimia."
-)
 # Konfigurasi Halaman (Lebar Penuh agar tabel muat)
 st.set_page_config(page_title="Tabel Periodik Interaktif", layout="wide", page_icon="🧪")
 
