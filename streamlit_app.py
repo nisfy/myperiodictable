@@ -91,16 +91,19 @@ with st.sidebar:
     if "halaman" in st.query_params:
         if st.query_params["halaman"] == "Tabel":
             st.session_state.halaman = "🔬 Tabel Periodik"
-    elif "halaman" not in st.session_state:
+    
+    if "halaman" not in st.session_state:
         st.session_state.halaman = "🏠 Beranda"
 
-    # RENDER RADIO DENGAN VALUE DARI SESSION_STATE
+    # RENDER RADIO - set default dari session_state
+    halaman_options = ["🏠 Beranda", "🔬 Tabel Periodik", "👥 Profil Tim"]
+    halaman_index = halaman_options.index(st.session_state.halaman) if st.session_state.halaman in halaman_options else 0
+    
     halaman = st.radio(
         "📑 Pilih Halaman:",
-        ["🏠 Beranda", "🔬 Tabel Periodik", "👥 Profil Tim"],
-        value=st.session_state.halaman,  # ← Gunakan value, bukan index!
-        label_visibility="collapsed",
-        key="halaman_nav"
+        halaman_options,
+        index=halaman_index,
+        label_visibility="collapsed"
     )
 
     st.session_state.halaman = halaman
@@ -1000,4 +1003,3 @@ else:  # Halaman Tabel Periodik
 
         with tab5:
             st.success(unsur_aktif.get("Kegunaan", "Belum ada data kegunaan."))
-        
