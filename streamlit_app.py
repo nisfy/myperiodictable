@@ -62,22 +62,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ========== DATA KATEGORI WARNA PASTEL ===========
-COLOR_MAP = {
-    "Logam Alkali": "#FFB6C1",
-    "Logam Alkali Tanah": "#FFD6A5",
-    "Logam Transisi": "#FFF3B0",
-    "Logam Transisi (Superberat)": "#FFF3B0",
-    "Logam Pasca-Transisi": "#CDEAC0",
-    "Logam Pasca-Transisi (Superberat)": "#CDEAC0",
-    "Metaloid": "#B5EAEA",
-    "Non-logam": "#BDE0FE",
-    "Non-logam (Halogen)": "#D8B4FE",
-    "Gas Mulia": "#F8C8DC",
-    "Lantanida": "#DCC6FF",
-    "Aktinida": "#F4C2E7"
-}
-
 # ============ SIDEBAR NAVIGASI ============
 with st.sidebar:
     st.markdown("""
@@ -97,10 +81,10 @@ with st.sidebar:
     
     with st.expander("👥 Anggota Kelompok", expanded=True):
         anggota = [
-            {"nama": "Hayu Raihanun", "nim": "2560641"},
-            {"nama": "Niken Sri Utari", "nim": "2560727"},
-            {"nama": "Nisfy Sabrina Flowerridha S", "nim": "2560728"},
-            {"nama": "Raifan Syahdan Putra R", "nim": "2560742"}
+            {"nama": "Hayu Pratiwi", "nim": "2041720080"},
+            {"nama": "Niken Cahyati", "nim": "2041720081"},
+            {"nama": "Nisfy Hardiantari", "nim": "2041720082"},
+            {"nama": "Raifan Arinal", "nim": "2041720083"}
         ]
         for member in anggota:
             st.markdown(f"**{member['nama']}**  \n`{member['nim']}`")
@@ -131,22 +115,7 @@ if halaman == "🏠 Beranda":
     - 🔍 **Tabel Interaktif** - Klik unsur untuk detail lengkap
     - 🧪 **Kategori Unsur** - Logam, Non-logam, Metaloid, Gas Mulia, dll
     - ⚠️ **Info Keselamatan** - Piktogram GHS & bahaya kesehatan
-                
-    ### 🎯 Tujuan Proyek
-    - Menyediakan informasi unsur-unsur kimia secara lengkap dan mudah dipahami.
-    - Membantu mahasiswa, siswa, dan pengguna umum mempelajari tabel periodik unsur secara interaktif.
-    - Mempermudah pencarian data unsur kimia seperti nomor atom, massa atom, konfigurasi elektron, sifat fisika, dan sifat kimia.
-    - Menjadi media pembelajaran digital yang menarik dan modern dalam bidang kimia.
-    - Meningkatkan pemahaman pengguna mengenai karakteristik dan kegunaan berbagai unsur kimia
-
-    ### 💡 Manfaat Aplikasi
-    - Memudahkan pengguna mengakses informasi unsur kimia dengan cepat dan praktis.
-    - Membantu proses pembelajaran kimia secara mandiri maupun di lingkungan pendidikan.
-    - Menyajikan data unsur kimia dalam tampilan yang interaktif dan mudah dipahami.
-    - Menambah wawasan mengenai sifat, kegunaan, serta aspek keselamatan dari setiap unsur kimia.
-    - Mendukung kegiatan belajar, penelitian, dan praktikum yang berkaitan dengan ilmu kimia.
-    - Menjadi sumber referensi digital yang dapat diakses kapan saja dan di mana saja.
-                
+    
     </div>
     """, unsafe_allow_html=True)
     
@@ -174,10 +143,10 @@ elif halaman == "👥 Profil Tim":
     col1, col2 = st.columns(2)
     
     tim = [
-        {"nama": "Hayu Raihanun", "nim": "2560641"},
-        {"nama": "Niken Sri Uttari", "nim": "2560727"},
-        {"nama": "Nisfy Sabrina Flowerridha Supriyadi", "nim": "2560728"},
-        {"nama": "Raifan Syahdan Putra Raya", "nim": "2560742"}
+        {"nama": "Hayu Pratiwi", "nim": "2041720080", "peran": "Koordinator & Backend Developer"},
+        {"nama": "Niken Cahyati", "nim": "2041720081", "peran": "Frontend Designer & UI/UX"},
+        {"nama": "Nisfy Hardiantari", "nim": "2041720082", "peran": "Data Researcher & Dokumentasi"},
+        {"nama": "Raifan Arinal", "nim": "2041720083", "peran": "Tester & Optimization"}
     ]
     
     for i, member in enumerate(tim):
@@ -186,6 +155,7 @@ elif halaman == "👥 Profil Tim":
             <div style="background: linear-gradient(135deg, #fff5f9, #f0e8f8); border: 2px solid #ffb6d9; border-radius: 10px; padding: 20px; margin: 10px 0;">
                 <h3 style="color: #ff6b9d; margin-top: 0;">{member['nama']}</h3>
                 <p style="color: #7209b7; font-weight: bold; margin: 5px 0;">NIM: {member['nim']}</p>
+                <p style="color: #c44569; margin: 0;">📍 {member['peran']}</p>
             </div>
             """, unsafe_allow_html=True)
     
@@ -194,16 +164,19 @@ elif halaman == "👥 Profil Tim":
     <div class="info-box">
     
     ### 🎓 Program Studi
-    **Analisis Kimia** | Politeknik AKA Bogor
+    **Teknik Kimia** | Politeknik AKA Bogor
     
     ### 📚 Mata Kuliah
-    **Logika Pemrograman Komputer**
+    **Kimia Dasar & Tabel Periodik Unsur**
+    
+    ### 🎯 Tujuan Proyek
+    Mengembangkan aplikasi interaktif berbasis web untuk mempelajari unsur-unsur kimia dengan cara yang lebih menarik dan efektif bagi mahasiswa dan pelajar.
     
     ### 💡 Teknologi yang Digunakan
     - **Frontend:** Streamlit, HTML, CSS
     - **Backend:** Python
     - **Data:** Database Unsur Kimia (118 Unsur)
-    - **Deployment:** Streamlit Framework
+    - **Deployment:** Streamlit Cloud
     
     </div>
     """, unsafe_allow_html=True)
@@ -212,22 +185,6 @@ else:  # Halaman Tabel Periodik
     st.markdown('<p class="main-title">🔬 Tabel Periodik Unsur Kimia</p>', unsafe_allow_html=True)
     st.markdown('<p class="subtitle">Klik pada unsur untuk melihat detail lengkap</p>', unsafe_allow_html=True)
 
-    st.markdown("#### 🎨 Petunjuk Kategori Unsur:")
-    legend_cols = st.columns(6)
-    categories = list(COLOR_MAP.keys())
-
-    for idx, cat in enumerate(categories):
-        col_idx = idx % 5
-        with legend_cols[col_idx]:
-            st.markdown(
-                f'<div style="background-color:{COLOR_MAP[cat]}; padding:6px; border-radius:8px; text-align:center; '
-                f'font-size:0.8rem; font-weight:bold; color:#4A3E56; margin-bottom:5px; border: 1px solid rgba(0,0,0,0.05);">'
-                f'{cat}</div>', 
-                unsafe_allow_html=True
-            )
-            
-    st.markdown("<br>", unsafe_allow_html=True)
-    
     # --- DATASET (GOLONGAN IA & IIA) ---
     unsur_data = {
         # GOLONGAN IA
@@ -861,10 +818,7 @@ else:  # Halaman Tabel Periodik
     st.write("Klik pada unsur yang tersedia (warna dapat diklik) untuk melihat detailnya di bagian bawah.")
 
     # Menyimpan unsur yang diklik
-    if "element" in st.query_params:
-        st.session_state.unsur_terpilih = st.query_params["element"]
-    
-    elif 'unsur_terpilih' not in st.session_state:
+    if 'unsur_terpilih' not in st.session_state:
         st.session_state.unsur_terpilih = 'H'
 
     # --- LAYOUT MATRIKS TABEL PERIODIK ---
@@ -881,55 +835,17 @@ else:  # Halaman Tabel Periodik
 
     # Menggambar Tabel Periodik
     for baris in grid_tabel:
-        kolom = st.columns(18)
+        kolom = st.columns(18) # Membagi layar menjadi 18 kolom sama besar
         for i, unsur in enumerate(baris):
             with kolom[i]:
-                if unsur != "":
+                if unsur != "":  
                     if unsur in unsur_data:
-                    
-                        data_unsur = unsur_data[unsur]
-                        kategori_unsur = data_unsur["Informasi Dasar"].get("Kategori", "")
-                        warna_bg = COLOR_MAP.get(kategori_unsur, "#FFFFFF")
-        
-                        st.markdown(
-                            f"""
-                            <a href="?element={unsur}" target="_self" style="text-decoration: none;">
-                                <div style="
-                                    background-color: {warna_bg}; 
-                                    border: 1px solid rgba(0,0,0,0.1); 
-                                    border-radius: 8px; 
-                                    padding: 10px 2px; 
-                                    text-align: center; 
-                                    margin-bottom: 10px;
-                                    box-shadow: 1px 2px 5px rgba(0,0,0,0.05);
-                                    color: #333;
-                                    min-height: 80px;
-                                ">
-                                    <h3 style="margin: 0; font-size: 1.2rem;">{unsur}</h3>
-                                    <p style="margin: 0; font-size: 0.7rem; font-weight: bold;">{data_unsur['Informasi Dasar']['Nomor Atom']}</p>
-                                </div>
-                            </a>
-                            """, 
-                            unsafe_allow_html=True
-                        )
+                        # Jika unsur ada di dictionary, jadikan tombol yang bisa diklik
+                        if st.button(unsur, use_container_width=True, type="primary"):
+                            st.session_state.unsur_terpilih = unsur
                     else:
-                        st.markdown(
-                            f"""
-                            <div style="
-                                background-color: #E0E0E0; 
-                                border: 1px solid rgba(0,0,0,0.1); 
-                                border-radius: 8px; 
-                                padding: 10px 2px; 
-                                text-align: center; 
-                                margin-bottom: 10px;
-                                color: #999;
-                                min-height: 80px;
-                            ">
-                                <h3 style="margin: 0; font-size: 1.2rem;">{unsur}</h3>
-                            </div>
-                            """, 
-                            unsafe_allow_html=True
-                        )
+                        # Jika unsur belum ditambahkan, buat tombol menjadi "disabled" (abu-abu)
+                        st.button(unsur, use_container_width=True, disabled=True)
 
     # Tambahan untuk Lantanida & Aktinida di bawah
     st.write("")
@@ -944,51 +860,13 @@ else:  # Halaman Tabel Periodik
             with kolom[i]:
                 if unsur != "":
                     if unsur in unsur_data:
-                        data_unsur = unsur_data[unsur]
-                        kategori_unsur = data_unsur["Informasi Dasar"].get("Kategori", "")
-                        warna_bg = COLOR_MAP.get(kategori_unsur, "#FFFFFF")
-                        
-                        st.markdown(
-                            f"""
-                            <a href="?element={unsur}" target="_self" style="text-decoration: none;">
-                                <div style="
-                                    background-color: {warna_bg}; 
-                                    border: 1px solid rgba(0,0,0,0.1); 
-                                    border-radius: 8px; 
-                                    padding: 10px 2px; 
-                                    text-align: center; 
-                                    margin-bottom: 10px;
-                                    box-shadow: 1px 2px 5px rgba(0,0,0,0.05);
-                                    color: #333;
-                                    min-height: 80px;
-                                ">
-                                    <h3 style="margin: 0; font-size: 1.2rem;">{unsur}</h3>
-                                    <p style="margin: 0; font-size: 0.7rem; font-weight: bold;">{data_unsur['Informasi Dasar']['Nomor Atom']}</p>
-                                </div>
-                            </a>
-                            """, 
-                            unsafe_allow_html=True
-                        )
+                        if st.button(unsur, use_container_width=True, key=f"f_{unsur}", type="primary"):
+                            st.session_state.unsur_terpilih = unsur
                     else:
-                        st.markdown(
-                            f"""
-                            <div style="
-                                background-color: #E0E0E0; 
-                                border: 1px solid rgba(0,0,0,0.1); 
-                                border-radius: 8px; 
-                                padding: 10px 2px; 
-                                text-align: center; 
-                                margin-bottom: 10px;
-                                color: #999;
-                                min-height: 80px;
-                            ">
-                                <h3 style="margin: 0; font-size: 1.2rem;">{unsur}</h3>
-                            </div>
-                            """, 
-                            unsafe_allow_html=True
-                        )
-    
+                        st.button(unsur, use_container_width=True, disabled=True, key=f"f_{unsur}")
+
     st.markdown("---")
+
     # --- DETAIL UNSUR (DITAMPILKAN DI BAWAH TABEL) ---
     if st.session_state.unsur_terpilih in unsur_data:
         unsur_aktif = unsur_data[st.session_state.unsur_terpilih]
@@ -1022,4 +900,3 @@ else:  # Halaman Tabel Periodik
 
         with tab5:
             st.success(unsur_aktif.get("Kegunaan", "Belum ada data kegunaan."))
-
