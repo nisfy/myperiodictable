@@ -88,7 +88,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     if "halaman" not in st.session_state:
-        st.session_state.halaman = "🔬 Tabel Periodik"
+        st.session_state.halaman = "🏠 Beranda"
 
     halaman = st.radio(
         "📑 Pilih Halaman:",
