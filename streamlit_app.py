@@ -87,14 +87,20 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    if "halaman" not in st.session_state:
+    # ============ CHECK QUERY PARAMS DULU (SEBELUM RADIO RENDER) ============
+    if "halaman" in st.query_params:
+        if st.query_params["halaman"] == "Tabel":
+            st.session_state.halaman = "🔬 Tabel Periodik"
+    elif "halaman" not in st.session_state:
         st.session_state.halaman = "🏠 Beranda"
 
+    # RENDER RADIO DENGAN VALUE DARI SESSION_STATE
     halaman = st.radio(
         "📑 Pilih Halaman:",
         ["🏠 Beranda", "🔬 Tabel Periodik", "👥 Profil Tim"],
-        index=["🏠 Beranda", "🔬 Tabel Periodik", "👥 Profil Tim"].index(st.session_state.halaman),
-        label_visibility="collapsed"
+        value=st.session_state.halaman,  # ← Gunakan value, bukan index!
+        label_visibility="collapsed",
+        key="halaman_nav"
     )
 
     st.session_state.halaman = halaman
@@ -112,13 +118,8 @@ with st.sidebar:
 
     st.divider()
     st.caption("© 2024 Kelompok 13 | Politeknik AKA Bogor")
+
 # ============ CONDITIONAL RENDERING HALAMAN ============
-if "halaman" in st.query_params:
-    if st.query_params["halaman"] == "Tabel":
-        st.session_state.halaman = "🔬 Tabel Periodik"
-
-halaman = st.session_state.halaman  # ← SYNC dengan session_state yang sudah di-update!
-
 if halaman == "🏠 Beranda":
     st.markdown('<p class="main-title">⚛️ Tabel Periodik Interaktif</p>', unsafe_allow_html=True)
     st.markdown('<p class="subtitle">Jelajahi Unsur Kimia Dengan Mudah & Menyenangkan ✨</p>', unsafe_allow_html=True)
@@ -999,3 +1000,4 @@ else:  # Halaman Tabel Periodik
 
         with tab5:
             st.success(unsur_aktif.get("Kegunaan", "Belum ada data kegunaan."))
+        
