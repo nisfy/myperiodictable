@@ -164,10 +164,10 @@ elif halaman == "👥 Profil Tim":
     <div class="info-box">
     
     ### 🎓 Program Studi
-    **Teknik Kimia** | Politeknik AKA Bogor
+    **ANALIS KIMIA** | Politeknik AKA Bogor
     
     ### 📚 Mata Kuliah
-    **Kimia Dasar & Tabel Periodik Unsur**
+    **LOGIKA PEMROGRAMAN KOMPUTER**
     
     ### 🎯 Tujuan Proyek
     Mengembangkan aplikasi interaktif berbasis web untuk mempelajari unsur-unsur kimia dengan cara yang lebih menarik dan efektif bagi mahasiswa dan pelajar.
