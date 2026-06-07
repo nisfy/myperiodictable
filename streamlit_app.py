@@ -878,34 +878,34 @@ else:  # Halaman Tabel Periodik
     for baris in grid_tabel:
         kolom = st.columns(18)
 
-    for i, unsur in enumerate(baris):
-        with kolom[i]:
+        for i, unsur in enumerate(baris):
+            with kolom[i]:
 
-            if unsur != "":
-                if unsur in unsur_data:
+                if unsur != "":
+                    if unsur in unsur_data:
 
-                    data_unsur = unsur_data[unsur]
-                    kategori_unsur = data_unsur["Informasi Dasar"].get("Kategori", "")
-                    warna_bg = COLOR_MAP.get(kategori_unsur, "#FFFFFF")
+                        data_unsur = unsur_data[unsur]
+                        kategori_unsur = data_unsur["Informasi Dasar"].get("Kategori", "")
+                        warna_bg = COLOR_MAP.get(kategori_unsur, "#FFFFFF")
 
-                    st.markdown(
-                        f"""
-                        <a href="?halaman=Tabel&element={unsur}" target="_self" style="text-decoration:none;">
-                            <div style="
-                                background-color:{warna_bg};
-                                border-radius:8px;
-                                padding:10px;
-                                text-align:center;
-                                margin-bottom:10px;
-                                min-height:80px;
-                            ">
-                                <h3>{unsur}</h3>
-                            </div>
-                        </a>
-                        """,
-                        unsafe_allow_html=True
-                    )
-    # Tambahan untuk Lantanida & Aktinida di bawah
+                        st.markdown(
+                            f"""
+                            <a href="?halaman=Tabel&element={unsur}" target="_self" style="text-decoration:none;">
+                                <div style="
+                                    background-color:{warna_bg};
+                                    border-radius:8px;
+                                    padding:10px;
+                                    text-align:center;
+                                    margin-bottom:10px;
+                                    min-height:80px;
+                                ">
+                                    <h3>{unsur}</h3>
+                                </div>
+                            </a>
+                            """,
+                            unsafe_allow_html=True
+                        )
+        # Tambahan untuk Lantanida & Aktinida di bawah
     st.write("")
     st.caption("Blok-f (Lantanida & Aktinida)")
     blok_f = [
