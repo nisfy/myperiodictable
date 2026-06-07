@@ -116,6 +116,9 @@ with st.sidebar:
 if "halaman" in st.query_params:
     if st.query_params["halaman"] == "Tabel":
         st.session_state.halaman = "🔬 Tabel Periodik"
+
+halaman = st.session_state.halaman  # ← SYNC dengan session_state yang sudah di-update!
+
 if halaman == "🏠 Beranda":
     st.markdown('<p class="main-title">⚛️ Tabel Periodik Interaktif</p>', unsafe_allow_html=True)
     st.markdown('<p class="subtitle">Jelajahi Unsur Kimia Dengan Mudah & Menyenangkan ✨</p>', unsafe_allow_html=True)
