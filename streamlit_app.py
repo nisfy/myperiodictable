@@ -214,7 +214,7 @@ elif halaman == "👥 Profil Tim":
     **Logika Pemrograman Komputer**
     
     ### 💡 Teknologi yang Digunakan
-    - **Frontend:** Streamlit, HTML, CSS
+    - **Frontend:** Streamlit, CSS
     - **Backend:** Python
     - **Data:** Database Unsur Kimia (118 Unsur)
     - **Deployment:** Streamlit Framework
