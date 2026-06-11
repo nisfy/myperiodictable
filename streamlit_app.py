@@ -1,17 +1,7 @@
-# ============================================================
-# IMPORT LIBRARY
-# - streamlit : framework utama untuk membangun tampilan web
-#               berbasis Python, tanpa perlu HTML/JS terpisah
-# - pandas    : library untuk mengolah dan menampilkan data
-#               dalam bentuk tabel (DataFrame)
-# ============================================================
 import streamlit as st
 import pandas as pd
 
 # ============ KONFIGURASI HALAMAN ============
-# Pengaturan dasar tampilan tab browser dan layout aplikasi.
-# layout="wide"  → konten memenuhi lebar layar penuh
-# initial_sidebar_state="expanded" → sidebar langsung terbuka saat pertama load
 st.set_page_config(
     page_title="Tabel Periodik Interaktif - Kelompok 13",
     page_icon="⚛️",
@@ -20,12 +10,6 @@ st.set_page_config(
 )
 
 # ============ CSS KAWAII PASTEL ============
-# st.markdown() dengan unsafe_allow_html=True memungkinkan kita
-# menyisipkan kode HTML/CSS langsung ke dalam aplikasi Streamlit.
-# Ini diperlukan karena Streamlit sendiri tidak punya fitur
-# kustomisasi tampilan sedetail ini secara native (murni Python).
-# CSS di sini mengatur: warna background, font, sidebar, judul,
-# dan kotak info agar tampil dengan tema pastel yang konsisten.
 st.markdown("""
 <style>
     /* Background & Font */
@@ -79,14 +63,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ========== DATA KATEGORI WARNA PASTEL ===========
-# COLOR_MAP adalah dictionary (kamus) Python yang memetakan
-# setiap KATEGORI unsur kimia ke kode warna HEX pastel.
-# Tujuannya: saat menggambar grid tabel periodik, setiap kotak
-# unsur otomatis diberi warna sesuai kategorinya agar mudah
-# dibedakan secara visual.
-#
-# Format: "Nama Kategori" : "#KodeWarnaHex"
-# Contoh: "Logam Alkali" → warna merah muda (#FFB6C1)
 COLOR_MAP = {
     "Logam Alkali": "#FFB6C1",
     "Logam Alkali Tanah": "#FFD6A5",
@@ -103,10 +79,6 @@ COLOR_MAP = {
 }
 
 # ============ SIDEBAR NAVIGASI ============
-# Blok "with st.sidebar:" menempatkan semua konten di dalamnya
-# ke panel samping kiri aplikasi.
-# Di sini terdapat: header branding, radio button navigasi halaman,
-# dan daftar anggota kelompok yang ditampilkan dalam expander.
 with st.sidebar:
     st.markdown("""
     <div style="text-align:center; padding: 20px; background: linear-gradient(135deg, #ffb6d9, #d4a5ff); border-radius: 15px; margin-bottom: 20px;">
@@ -116,11 +88,6 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     # ============ CHECK QUERY PARAMS DULU (SEBELUM RADIO RENDER) ============
-    # st.query_params membaca parameter URL browser (contoh: ?halaman=Tabel&element=H).
-    # Ini dipakai agar saat user klik tombol unsur di grid (yang berupa link <a href>),
-    # halaman langsung berpindah ke "Tabel Periodik" dan unsur yang diklik langsung tampil.
-    # st.session_state menyimpan data sementara selama sesi browser aktif,
-    # sehingga pilihan halaman tidak reset setiap kali halaman di-refresh.
     if "halaman" in st.query_params:
         if st.query_params["halaman"] == "Tabel":
             st.session_state.halaman = "🔬 Tabel Periodik"
@@ -180,7 +147,19 @@ if halaman == "🏠 Beranda":
     - ⚠️ **Info Keselamatan** - Piktogram GHS & bahaya kesehatan
                 
     ### 🎯 Tujuan Proyek
-    Mengembangkan aplikasi interaktif berbasis web untuk mempelajari unsur-unsur kimia dengan cara yang lebih menarik dan efektif bagi mahasiswa dan pelajar.
+    - Menyediakan informasi unsur-unsur kimia secara lengkap dan mudah dipahami.
+    - Membantu mahasiswa, siswa, dan pengguna umum mempelajari tabel periodik unsur secara interaktif.
+    - Mempermudah pencarian data unsur kimia seperti nomor atom, massa atom, konfigurasi elektron, sifat fisika, dan sifat kimia.
+    - Menjadi media pembelajaran digital yang menarik dan modern dalam bidang kimia.
+    - Meningkatkan pemahaman pengguna mengenai karakteristik dan kegunaan berbagai unsur kimia.
+
+    ### 🎯 Manfaat 
+    - Memudahkan pengguna mengakses informasi unsur kimia dengan cepat dan praktis.
+    - Membantu proses pembelajaran kimia secara mandiri maupun di lingkungan pendidikan.
+    - Menyajikan data unsur kimia dalam tampilan yang interaktif dan mudah dipahami.
+    - Menambah wawasan mengenai sifat, kegunaan, serta aspek keselamatan dari setiap unsur kimia.
+    - Mendukung kegiatan belajar, penelitian, dan praktikum yang berkaitan dengan ilmu kimia.
+    - Menjadi sumber referensi digital yang dapat diakses kapan saja dan di mana saja.
                 
     </div>
     """, unsafe_allow_html=True)
@@ -235,7 +214,7 @@ elif halaman == "👥 Profil Tim":
     **Logika Pemrograman Komputer**
     
     ### 💡 Teknologi yang Digunakan
-    - **Frontend:** Streamlit, HTML, CSS
+    - **Frontend:** Streamlit, CSS
     - **Backend:** Python
     - **Data:** Database Unsur Kimia (118 Unsur)
     - **Deployment:** Streamlit Framework
@@ -263,33 +242,9 @@ else:  # Halaman Tabel Periodik
             
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # ============================================================
-    # DATASET UNSUR KIMIA - KAMUS UTAMA (unsur_data)
-    # ============================================================
-    # unsur_data adalah dictionary bersarang (nested dictionary)
-    # yang menyimpan SELURUH informasi dari 118 unsur kimia.
-    #
-    # STRUKTUR PER UNSUR:
-    # "Simbol Unsur" : {
-    #     "Informasi Dasar"       : {...},  → nomor atom, massa, golongan, periode, dll
-    #     "Sifat Kimia & Fisik"   : {...},  → reaktivitas dan sifat kimia
-    #     "Wujud Fisik"           : {...},  → wujud, warna, massa jenis pada 25°C
-    #     "Kesehatan & Keselamatan": {...}, → toksisitas, piktogram GHS, bahaya
-    #     "Kegunaan"              : "...",  → aplikasi nyata unsur tersebut
-    # }
-    #
-    # Contoh membaca data: unsur_data["H"]["Informasi Dasar"]["Nama"] → "Hidrogen"
-    #
-    # Data dikelompokkan berdasarkan golongan tabel periodik
-    # (Golongan IA, IIA, IIIA, dst.) dengan komentar pemisah
-    # agar mudah ditelusuri dan dikembangkan lebih lanjut.
-    # ============================================================
-
     # --- DATASET (GOLONGAN IA & IIA) ---
     unsur_data = {
         # GOLONGAN IA
-        # Unsur-unsur Logam Alkali: punya 1 elektron valensi,
-        # sangat reaktif terhadap air, disimpan dalam minyak.
         "H": {"Informasi Dasar": {"Nama": "Hidrogen", "Nomor Atom": 1, "Kategori": "Non-logam", "Massa Atom Relatif": 1.008, "Golongan": "IA", "Periode": 1, "Konfigurasi Elektron": "1s¹", "Tahun Ditemukan": 1766}, "Sifat Kimia & Fisik": {"Reaktivitas": "Sangat reaktif pada suhu tinggi"}, "Wujud Fisik": {"Wujud (25°C)": "Gas", "Warna": "Tidak berwarna", "Massa Jenis": "0.08988 g/L"}, "Kesehatan & Keselamatan": {"Toksisitas": "Rendah", "Piktogram GHS": "🔥", "Bahaya Kesehatan": "Asfiksian", "Batas Paparan": "Tidak ada"}, "Kegunaan": "Bahan bakar roket, amonia."},
         "Li": {"Informasi Dasar": {"Nama": "Litium", "Nomor Atom": 3, "Kategori": "Logam Alkali", "Massa Atom Relatif": 6.94, "Golongan": "IA", "Periode": 2, "Konfigurasi Elektron": "[He] 2s¹", "Tahun Ditemukan": 1817}, "Sifat Kimia & Fisik": {"Reaktivitas": "Sangat reaktif, mudah teroksidasi"}, "Wujud Fisik": {"Wujud (25°C)": "Padat", "Warna": "Putih keperakan", "Massa Jenis": "0.534 g/cm³"}, "Kesehatan & Keselamatan": {"Toksisitas": "Sedang", "Piktogram GHS": "🔥, ☠️", "Bahaya Kesehatan": "Korosif pada kulit", "Batas Paparan": "0.025 mg/m³"}, "Kegunaan": "Baterai ion-litium."},
         "Na": {"Informasi Dasar": {"Nama": "Natrium", "Nomor Atom": 11, "Kategori": "Logam Alkali", "Massa Atom Relatif": 22.99, "Golongan": "IA", "Periode": 3, "Konfigurasi Elektron": "[Ne] 3s¹", "Tahun Ditemukan": 1807}, "Sifat Kimia & Fisik": {"Reaktivitas": "Bereaksi eksplosif dengan air"}, "Wujud Fisik": {"Wujud (25°C)": "Padat", "Warna": "Putih keperakan", "Massa Jenis": "0.968 g/cm³"}, "Kesehatan & Keselamatan": {"Toksisitas": "Sedang", "Piktogram GHS": "🔥, ☠️", "Bahaya Kesehatan": "Luka bakar termal/kimia", "Batas Paparan": "2 mg/m³"}, "Kegunaan": "Garam dapur (NaCl)."},
@@ -299,8 +254,6 @@ else:  # Halaman Tabel Periodik
         "Fr": {"Informasi Dasar": {"Nama": "Fransium", "Nomor Atom": 87, "Kategori": "Logam Alkali", "Massa Atom Relatif": 223, "Golongan": "IA", "Periode": 7, "Konfigurasi Elektron": "[Rn] 7s¹", "Tahun Ditemukan": 1939}, "Sifat Kimia & Fisik": {"Reaktivitas": "Diasumsikan sangat eksplosif"}, "Wujud Fisik": {"Wujud (25°C)": "Padat", "Warna": "Metalik", "Massa Jenis": "1.87 g/cm³"}, "Kesehatan & Keselamatan": {"Toksisitas": "Sangat Radioaktif", "Piktogram GHS": "☢️", "Bahaya Kesehatan": "Radiasi tinggi", "Batas Paparan": "Dilarang terpapar"}, "Kegunaan": "Penelitian medis/nuklir."},
     
         # GOLONGAN IIA
-        # Unsur-unsur Logam Alkali Tanah: punya 2 elektron valensi,
-        # reaktivitas lebih rendah dari Golongan IA, umumnya padat dan keras.
         "Be": {"Informasi Dasar": {"Nama": "Berilium", "Nomor Atom": 4, "Kategori": "Logam Alkali Tanah", "Massa Atom Relatif": 9.012, "Golongan": "IIA", "Periode": 2, "Konfigurasi Elektron": "[He] 2s²", "Tahun Ditemukan": 1798}, "Sifat Kimia & Fisik": {"Reaktivitas": "Reaktivitas rendah"}, "Wujud Fisik": {"Wujud (25°C)": "Padat", "Warna": "Abu-abu baja", "Massa Jenis": "1.85 g/cm³"}, "Kesehatan & Keselamatan": {"Toksisitas": "Sangat Tinggi", "Piktogram GHS": "☠️, 🫁", "Bahaya Kesehatan": "Karsinogenik (Beriliosis)", "Batas Paparan": "0.0002 mg/m³"}, "Kegunaan": "Komponen pesawat ruang angkasa."},
         "Mg": {"Informasi Dasar": {"Nama": "Magnesium", "Nomor Atom": 12, "Kategori": "Logam Alkali Tanah", "Massa Atom Relatif": 24.305, "Golongan": "IIA", "Periode": 3, "Konfigurasi Elektron": "[Ne] 3s²", "Tahun Ditemukan": 1755}, "Sifat Kimia & Fisik": {"Reaktivitas": "Terbakar di udara dengan nyala terang"}, "Wujud Fisik": {"Wujud (25°C)": "Padat", "Warna": "Abu-abu mengkilap", "Massa Jenis": "1.74 g/cm³"}, "Kesehatan & Keselamatan": {"Toksisitas": "Rendah", "Piktogram GHS": "🔥", "Bahaya Kesehatan": "Sangat mudah terbakar", "Batas Paparan": "10 mg/m³"}, "Kegunaan": "Velg mobil/pesawat, kembang api."},
         "Ca": {"Informasi Dasar": {"Nama": "Kalsium", "Nomor Atom": 20, "Kategori": "Logam Alkali Tanah", "Massa Atom Relatif": 40.078, "Golongan": "IIA", "Periode": 4, "Konfigurasi Elektron": "[Ar] 4s²", "Tahun Ditemukan": 1808}, "Sifat Kimia & Fisik": {"Reaktivitas": "Cukup reaktif"}, "Wujud Fisik": {"Wujud (25°C)": "Padat", "Warna": "Keperakan-putih", "Massa Jenis": "1.55 g/cm³"}, "Kesehatan & Keselamatan": {"Toksisitas": "Rendah", "Piktogram GHS": "🔥, ☠️", "Bahaya Kesehatan": "Korosif pada kulit lembab", "Batas Paparan": "2 mg/m³"}, "Kegunaan": "Bahan baku semen dan beton."},
@@ -929,11 +882,6 @@ else:  # Halaman Tabel Periodik
         st.session_state.unsur_terpilih = 'H'
 
     # --- LAYOUT MATRIKS TABEL PERIODIK ---
-    # grid_tabel adalah list 2 dimensi (list of lists) yang merepresentasikan
-    # 7 baris (periode) × 18 kolom (golongan) tabel periodik.
-    # String kosong ("") = sel kosong (tidak ada unsur di posisi tersebut).
-    # "*"  = penanda posisi blok Lantanida (ditampilkan terpisah di bawah).
-    # "**" = penanda posisi blok Aktinida (ditampilkan terpisah di bawah).
     # Daftar baris mewakili 7 Periode dan 18 Golongan. Spasi kosong diisi dengan string kosong ("")
     grid_tabel = [
         ["H", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "He"],
@@ -946,16 +894,7 @@ else:  # Halaman Tabel Periodik
     ]
 
     # Menggambar Tabel Periodik
-    # Loop ini mengiterasi setiap baris (periode) dan kolom (golongan).
-    # st.columns(18) membuat 18 kolom sejajar di Streamlit.
-    # Setiap sel yang berisi simbol unsur (bukan "") akan:
-    #   1. Dicari datanya di unsur_data
-    #   2. Diambil kategorinya → dicari warnanya di COLOR_MAP
-    #   3. Ditampilkan sebagai tombol link HTML <a href> berwarna
-    # Kenapa pakai HTML <a href>? Karena Streamlit belum punya
-    # tombol yang bisa mengubah query_params URL secara langsung.
-    # Dengan link ?halaman=Tabel&element=H, saat diklik browser
-    # akan reload dan st.query_params membaca unsur yang dipilih.
+    for baris in grid_tabel:
         kolom = st.columns(18)
 
         for i, unsur in enumerate(baris):
@@ -986,9 +925,6 @@ else:  # Halaman Tabel Periodik
                             unsafe_allow_html=True
                         )
         # Tambahan untuk Lantanida & Aktinida di bawah
-        # Blok-f (Lantanida & Aktinida) ditampilkan terpisah di bawah tabel utama,
-        # mengikuti konvensi standar tabel periodik cetak.
-        # Strukturnya sama: list 2D → loop → render HTML berwarna per unsur.
     st.write("")
     st.caption("Blok-f (Lantanida & Aktinida)")
     blok_f = [
@@ -1047,14 +983,6 @@ else:  # Halaman Tabel Periodik
     
     st.markdown("---")
     # --- DETAIL UNSUR (DITAMPILKAN DI BAWAH TABEL) ---
-    # Bagian ini membaca st.session_state.unsur_terpilih (simbol unsur yang diklik),
-    # lalu menampilkan informasinya dalam 5 tab terpisah menggunakan st.tabs().
-    # Setiap tab mengambil sub-dictionary yang sesuai dari unsur_data:
-    #   Tab 1 "Informasi Dasar"        → ditampilkan sebagai tabel DataFrame (pandas)
-    #   Tab 2 "Sifat Kimia & Fisik"    → ditampilkan sebagai teks markdown bold
-    #   Tab 3 "Wujud Fisik"            → ditampilkan sebagai 3 metric card
-    #   Tab 4 "Kesehatan & Keselamatan"→ ditampilkan dengan info box + teks
-    #   Tab 5 "Kegunaan"               → ditampilkan dalam success box hijau
     if st.session_state.unsur_terpilih in unsur_data:
         unsur_aktif = unsur_data[st.session_state.unsur_terpilih]
     
