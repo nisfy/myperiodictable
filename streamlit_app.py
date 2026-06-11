@@ -147,7 +147,19 @@ if halaman == "🏠 Beranda":
     - ⚠️ **Info Keselamatan** - Piktogram GHS & bahaya kesehatan
                 
     ### 🎯 Tujuan Proyek
-    Mengembangkan aplikasi interaktif berbasis web untuk mempelajari unsur-unsur kimia dengan cara yang lebih menarik dan efektif bagi mahasiswa dan pelajar.
+    - Menyediakan informasi unsur-unsur kimia secara lengkap dan mudah dipahami.
+    - Membantu mahasiswa, siswa, dan pengguna umum mempelajari tabel periodik unsur secara interaktif.
+    - Mempermudah pencarian data unsur kimia seperti nomor atom, massa atom, konfigurasi elektron, sifat fisika, dan sifat kimia.
+    - Menjadi media pembelajaran digital yang menarik dan modern dalam bidang kimia.
+    - Meningkatkan pemahaman pengguna mengenai karakteristik dan kegunaan berbagai unsur kimia.
+
+    ### 🎯 Manfaat 
+    - Memudahkan pengguna mengakses informasi unsur kimia dengan cepat dan praktis.
+    - Membantu proses pembelajaran kimia secara mandiri maupun di lingkungan pendidikan.
+    - Menyajikan data unsur kimia dalam tampilan yang interaktif dan mudah dipahami.
+    - Menambah wawasan mengenai sifat, kegunaan, serta aspek keselamatan dari setiap unsur kimia.
+    - Mendukung kegiatan belajar, penelitian, dan praktikum yang berkaitan dengan ilmu kimia.
+    - Menjadi sumber referensi digital yang dapat diakses kapan saja dan di mana saja.
                 
     </div>
     """, unsafe_allow_html=True)
